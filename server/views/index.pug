@@ -1,4 +1,4 @@
-extends ./layouts/default  
+extends ./layouts/default
 
 block title
   title Koa 首页
@@ -136,5 +136,40 @@ block content
     .modal-dialog.modal-lg
       #videoModal.modal-content
 
-include ./includes/script    
-  
+  include ./includes/script
+
+  script.
+    var player = null
+
+    $(document).ready(function () {
+      $('#myModal').on('hidden.bs.modal', function (e) {
+        if (player && player.pause) player.pause()
+      })
+
+      $('.card-img-top').click(function (e) {
+        var video = $(this).data('video')
+        var image = $(this).attr('src')
+
+        $('#myModal').modal('show')
+
+        if (!player) {
+          player = new DPlayer({
+            container: document.getElementById('videoModal'),
+            screenshot: true,
+            video: {
+              url: video,
+              pic: image,
+              thumbnails: image
+            }
+          })
+        } else {
+          if (play.video.currentSrc !== video) {
+            player.switchVideo({
+              url: video,
+              pic: image,
+              type: 'auto'
+            })
+          }
+        }
+      })
+    })
