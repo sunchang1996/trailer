@@ -4,7 +4,7 @@
   "description": "koa2 搭建网站预告片",
   "main": "server/index.js",
   "scripts": {
-    "start": "node server/index",    
+    "start": "node server/index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/sunchang1996/trailer#readme",
   "dependencies": {
-    "koa": "^2.5.0"
+    "ejs": "^2.5.7",
+    "koa": "^2.5.0",
+    "koa-views": "^6.1.3",
+    "pug": "^2.0.0-rc.4"
   }
 }
