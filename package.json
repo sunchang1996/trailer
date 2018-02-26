@@ -1,0 +1,23 @@
+{
+  "name": "koa-trailer",
+  "version": "1.0.0",
+  "description": "koa2 搭建网站预告片",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index",    
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunchang1996/trailer.git"
+  },
+  "author": "a chang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sunchang1996/trailer/issues"
+  },
+  "homepage": "https://github.com/sunchang1996/trailer#readme",
+  "dependencies": {
+    "koa": "^2.5.0"
+  }
+}
