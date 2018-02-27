@@ -13,7 +13,7 @@ const sleep = time => new Promise(resolve => {
 
   const browser = await puppeteer.launch({
     args: ['--no--sandbox'],
-    dumpio: false
+    dumpio: false,
   })
 
   const page = await browser.newPage() // 开启一个新的页面
@@ -31,9 +31,9 @@ const sleep = time => new Promise(resolve => {
     await page.click('.more')
   }
 
-  const resolve = await page.evaluate(() => {
+  const result = await page.evaluate(() => {
     var $ = window.$;
-    var items = $('.list-wp a') // 用jQuery拿到便签
+    var items = $('.list-wp a') // 用jQuery拿到标签
     var links = []
 
     if (items.length >= 1) {
@@ -60,5 +60,7 @@ const sleep = time => new Promise(resolve => {
   })
 
   browser.close();// 关闭浏览器
-  console.log(resolve)
+
+  process.send({ result }) // 发送出去
+  process.exit(0)
 })()
