@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer')
-
+// 拿到视频的封面图和视频地址
 const base = `https://movie.douban.com/subject/`
 const doubanId = '26739551'
 const videoBase = `https://movie.douban.com/trailer/219491`
