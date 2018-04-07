@@ -2,37 +2,17 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema;
 
-const  { Mixed, ObjectId } = Schema.Types;
+const ObjectId = Schema.Types.ObjectId;
 
-const MovieSchema = new Schema({
-  movieId: {
+const CategorySchema = new Schema({
+  name: {
     unique: true,
-    required: true,
     type: String,
   },
-
-  category: {
+  movies: [{
     type: ObjectId,
     ref: 'Movie'   //建立一个指向关系
-  },
-
-  rate: Number,
-  summary: String,
-  video: String,
-  poster: String,
-  cover: String,
-
-  rawTitle: String,
-  movieType: [String],
-  pubdate: Mixed, //发布时间
-  year: Number,
-
-  videoKey: String,
-  posterKey: String,
-  coverKey: String,
-
-  tags: Array,
-
+  }],
   meta: {
     createAt: {
       type: Date,
@@ -45,7 +25,7 @@ const MovieSchema = new Schema({
   }
 })
 
-MovieSchema.pre('save', next => {
+CategorySchema.pre('save', next => {
   if (this.isNew) {
     this.meta.createAt = this.meta.updatedAt = Date.now();
   } else {
@@ -55,4 +35,4 @@ MovieSchema.pre('save', next => {
   next();
 }); // pre 在保存之前
 
-mongoose.model('Movie', MovieSchema) // 传递两个参数 
+mongoose.model('Category', CategorySchema) // 传递两个参数 

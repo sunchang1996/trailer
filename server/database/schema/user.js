@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const Schema = mongoose.Schema;
 
-const User = Schema.Types.Mixed;
+const Mixed = Schema.Types.Mixed;
 
 const SALT_WORK_FACTOR = 10;
 const MAX_LOGIN_ATTEMPTS = 5; // 最大登录次数
@@ -28,7 +28,7 @@ const UserSchema = new Schema({
     type: Number,
     required: true,  // 不能为空
     default: 0,
-  }
+  },
 
   lockUntil: Number,
 
@@ -45,9 +45,9 @@ const UserSchema = new Schema({
 })
 
 // 添加一个虚拟字段 不保存在数据库中
-UserSchema.virtual('isLocked').get(() => {
-  return !!(this.lockUntil && this.lockUntil > Date.now())
-})
+UserSchema.virtual('isLocked').get(() =>
+  !!(this.lockUntil && this.lockUntil > Date.now())
+)
 
 UserSchema.pre('save', next => {
   if (this.isNew) {
@@ -86,10 +86,10 @@ UserSchema.methods = {
         else reject(err)
       })
     })
-  }
+  },
   
   // 判断用户是不是超过了登录的次数
-  incLoginAttempts: (user) => {
+  incLoginAttempts:(user) => {
 
     return new Promise((resolve, reject) => {
       if (this.lockUntil && this.lockUntil < Date.now()) {
@@ -100,7 +100,7 @@ UserSchema.methods = {
           },
           $unset: {
             lockUntil: 1
-          }
+          },
         }, (err) => {
           if (!err) resolve(true)
           else reject(err)
@@ -120,11 +120,12 @@ UserSchema.methods = {
         }
 
         this.update(updates, err => {
-          if (!err) resolve()
+          if (!err) resolve(true)
+          else reject(err)
         })
       }
     })
   }
 }
 
-mongoose.model('User', Schema) // 传递两个参数 
+mongoose.model('User', UserSchema) // 传递两个参数 

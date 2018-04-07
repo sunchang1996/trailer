@@ -1,6 +1,12 @@
 const mongoose = require('mongoose')
 const db = 'mongodb://localhost/trailer'
+const { resolve } = require('path')
+const glob = require('glob')
 mongoose.Promise = global.Promise
+
+exports.initSchemas = () => {
+  glob.sync(resolve(__dirname, './schema/', '**/*.js')).forEach(require)
+}
 
 exports.connect = () => {
 
