@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const  { Mixed, ObjectId } = Schema.Types;
 
 const MovieSchema = new Schema({
-  movieId: {
+  doubanId: {
     unique: true,
     required: true,
     type: String,
@@ -13,7 +13,7 @@ const MovieSchema = new Schema({
 
   category: {
     type: ObjectId,
-    ref: 'Movie'   //建立一个指向关系
+    ref: 'Category'   //建立一个指向关系
   },
 
   rate: Number,
@@ -45,7 +45,7 @@ const MovieSchema = new Schema({
   }
 })
 
-MovieSchema.pre('save', next => {
+MovieSchema.pre('save', function (next) {
   if (this.isNew) {
     this.meta.createAt = this.meta.updatedAt = Date.now();
   } else {

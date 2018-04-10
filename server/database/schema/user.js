@@ -45,11 +45,12 @@ const UserSchema = new Schema({
 })
 
 // 添加一个虚拟字段 不保存在数据库中
-UserSchema.virtual('isLocked').get(() =>
-  !!(this.lockUntil && this.lockUntil > Date.now())
+UserSchema.virtual('isLocked').get(function (){
+    return !!(this.lockUntil && this.lockUntil > Date.now())
+  }
 )
 
-UserSchema.pre('save', next => {
+UserSchema.pre('save', function (next) {
   if (this.isNew) {
     this.meta.createAt = this.meta.updatedAt = Date.now();
   } else {
@@ -60,7 +61,7 @@ UserSchema.pre('save', next => {
 }); // pre 在保存之前
 
 // 对密码进行加密
-UserSchema.pre('save', next => {
+UserSchema.pre('save', function (next) {
   if (User.isModified('password')) return next()
 
   bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
