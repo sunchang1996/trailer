@@ -10,11 +10,11 @@ const mongoose  = require('mongoose');
   await connect()
   initSchemas()
   // model 传两个参数 第二个为定义的文件 作为model的发布， 如果只有一个参数
-  const Movie = mongoose.model('Movie')  
+  // const Movie = mongoose.model('Movie')  
    
-  const movies = await Movie.find({})
-
-  console.log('走这里了-------', movies);
+  // const movies = await Movie.find({})
+  // require 执行movie.js
+  require('./tasks/movie')
 })()
 
 // const { htmlTpl, ejsTpl, pugTpl } = require('./tpl')

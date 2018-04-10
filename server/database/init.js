@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
 const db = 'mongodb://localhost/trailer'
 const { resolve } = require('path')
-const glob = require('glob')
+const glob = require('glob') // node 模块 加载所有文件用
 mongoose.Promise = global.Promise
 
+// 加载Schema 下面所有的JS文件
 exports.initSchemas = () => {
   glob.sync(resolve(__dirname, './schema/', '**/*.js')).forEach(require)
 }
