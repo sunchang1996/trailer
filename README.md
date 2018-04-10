@@ -19,3 +19,7 @@ koa2 搭建网站预告片
 9. 进程间如何通信
 
 - puppeteer 爬虫 爬取豆瓣的数据
+
+- npm i mongoose -S
+- npm i bcrypt -S
+- npm i glob -S
