@@ -92,7 +92,7 @@ UserSchema.methods = {
   // 判断用户是不是超过了登录的次数
   incLoginAttempts:(user) => {
 
-    return new Promise((resolve, reject) => {
+    return new Promise( function(resolve, reject) {
       if (this.lockUntil && this.lockUntil < Date.now()) {
 
         this.update({

@@ -14,7 +14,8 @@ const mongoose  = require('mongoose');
    
   // const movies = await Movie.find({})
   // require 执行movie.js
-  require('./tasks/movie')
+  require('./tasks/api')
+  // require('./tasks/movie')
 })()
 
 // const { htmlTpl, ejsTpl, pugTpl } = require('./tpl')

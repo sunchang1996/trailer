@@ -46,6 +46,6 @@ const Movie = mongoose.model('Movie')
         await movie.save();
       }
     })
-    console.log(result)
+    // console.log('结果-----------------------', result)
   })
 })()

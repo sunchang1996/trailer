@@ -11,10 +11,10 @@ const MovieSchema = new Schema({
     type: String,
   },
 
-  category: {
+  category: [{
     type: ObjectId,
     ref: 'Category'   //建立一个指向关系
-  },
+  }],
 
   rate: Number,
   summary: String,
