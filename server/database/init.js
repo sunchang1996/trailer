@@ -1,12 +1,30 @@
 const mongoose = require('mongoose')
 const db = 'mongodb://localhost/trailer'
 const { resolve } = require('path')
+// const User = require('User')
 const glob = require('glob') // node 模块 加载所有文件用
 mongoose.Promise = global.Promise
 
 // 加载Schema 下面所有的JS文件
 exports.initSchemas = () => {
   glob.sync(resolve(__dirname, './schema/', '**/*.js')).forEach(require)
+}
+
+// 项目启动时 插入一条管理员账户
+exports.initAdmin = async () => {
+  const User = mongoose.model('User')
+  let user = await User.findOne({
+    username: 'achang'
+  })
+
+  if (!user) {
+    const user = new User({
+      username: 'achang',
+      email: 'koa2@imooc.com',
+      password: '123abc'
+    })
+    await user.save();
+  }
 }
 
 exports.connect = () => {
