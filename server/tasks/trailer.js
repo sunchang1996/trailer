@@ -1,7 +1,18 @@
 const cp = require('child_process')
 const { resolve } = require('path')
-// 拿到视频的地址和封面图
+const mongoose = require('mongoose')
+const Movie = mongoose.model('Movie')
+const Category = mongoose.model('Category')
+
 ;(async () => {
+  // $or  或者属性或 
+  let movies = await Movie.find({
+    $or: [
+      { video: { $exists: false }},
+      { video: null }
+    ]
+  })
+
   const script = resolve(__dirname, '../crawler/video')
   const child = cp.fork(script, [])
   let invoked = false
@@ -23,7 +34,42 @@ const { resolve } = require('path')
     console.log(err)
   })
 
-  child.on('message', data => {
-    console.log(data)
+  child.on('message', async data => {
+    
+    let doubanId = data.doubanId
+    let movie = await Movie.findOne({
+      doubanId: doubanId
+    })
+
+    if (data.video) {
+      movie.video = data.video
+      movie.cover = data.cover
+
+      await movie.save()
+    } else {
+      await movie.remove()
+
+      let movieTypes = movie.movieTypes
+
+      for (let i = 0; i < movieTypes.length; i++) {
+        let type = movieTypes[i]
+        let cat = Category.findOne({
+          name: type
+        })
+
+        if (cat && cat.movies) {
+          let idx = cat.movies.indexOf(movie._id)
+
+          if (idx > -1) {
+            // 视频不存在 就删除id
+            cat.movies = cat.movies.splice(idx, 1)
+          }
+
+          await cat.save()
+        }
+      }
+    }
   })
+
+  child.send(movies)
 })()
