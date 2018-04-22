@@ -1,6 +1,8 @@
-const Router = require('koa-router');
+// const Router = require('koa-router');
 const mongoose = require('mongoose');
 const router = new Router();
+
+const { controller, get, path} = require('../lib/decorator')
 // const router = new Router({
 //   prefix: '/movies' // 加router的公用前缀
 // });
