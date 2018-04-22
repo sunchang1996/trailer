@@ -23,3 +23,4 @@ koa2 搭建网站预告片
 - npm i mongoose -S
 - npm i bcrypt -S
 - npm i glob -S
+- npm i babel-core babel-polyfill -D
