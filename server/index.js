@@ -5,6 +5,10 @@ const views = require('koa-views');
 const { connect, initSchemas, initAdmin } = require('./database/init')
 const mongoose  = require('mongoose');
 
+const router = require('./routes')
+app
+  .use(router.routes())
+  .use(router.allowedMethods());
 
 ;(async () => {
   await connect()
