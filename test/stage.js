@@ -1,4 +1,4 @@
-const { readFile }   = require('fs')
+const { readFile } = require('fs')
 const EventEmitter = require('events')
 
 class EE extends EventEmitter {}
@@ -6,19 +6,19 @@ class EE extends EventEmitter {}
 const yy = new EE()
 
 yy.on('event', () => {
-  console.log('koa2 学的怎么样')
+  console.log('粗大事了!')
 })
 
 setTimeout(() => {
-  console.log('0 毫秒后执行')
-},0)
+  console.log('0 毫秒后到期执行的定时器回调')
+}, 0)
 
 setTimeout(() => {
-  console.log('100 毫秒后执行')
+  console.log('100 毫秒后到期执行的定时器回调')
 }, 100)
 
 setTimeout(() => {
-  console.log('200 毫秒后执行')
+  console.log('200 毫秒后到期执行的定时器回调')
 }, 200)
 
 readFile('../package.json', 'utf-8', data => {
@@ -29,8 +29,9 @@ readFile('../README.md', 'utf-8', data => {
   console.log('完成文件 2 读操作的回调')
 })
 
-setImmediate(() => { // node 
-  console.log('setImmediate 立即回调')
+
+setImmediate(() => {
+  console.log('immediate 立即回调')
 })
 
 process.nextTick(() => {
@@ -42,11 +43,19 @@ Promise.resolve()
     yy.emit('event')
 
     process.nextTick(() => {
-      console.log('process.nextTick 第二次 的回调')
+      console.log('process.nextTick 的第 2 次回调')
     })
 
-    console.log('Promise 的第一次回调')
+    console.log('Promise 的第 1 次回调')
   })
-  .then(() => {
-    console.log('Promise 的第二次回调')
+  .then(() => { 
+    console.log('Promise 的第 2 次回调')
   })
+
+
+
+
+
+
+
+

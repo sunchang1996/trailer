@@ -3,12 +3,12 @@ const bcrypt = require('bcrypt')
 const Schema = mongoose.Schema
 const Mixed = Schema.Types.Mixed
 const SALT_WORK_FACTOR = 10
-const MAX_LOGIN_ATTEMPTS = 5 // 最大登录次数
+const MAX_LOGIN_ATTEMPTS = 5
 const LOCK_TIME = 2 * 60 * 60 * 1000
 
 const userSchema = new Schema({
   username: {
-    unique: true, // 设置唯一的  不能重复
+    unique: true,
     required: true,
     type: String,
   },
@@ -51,9 +51,8 @@ userSchema.pre('save', function (next) {
   }
 
   next()
-}); // pre 在保存之前
+})
 
-// 对密码进行加密
 userSchema.pre('save', function (next) {
   if (!this.isModified('password')) return next()
 

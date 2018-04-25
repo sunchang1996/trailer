@@ -1,40 +1,37 @@
-const Koa = require('koa');
-const app = new Koa();
+const Koa = require('koa')
+const mongoose = require('mongoose')
+const views = require('koa-views')
 const { resolve } = require('path')
-const views = require('koa-views');
 const { connect, initSchemas, initAdmin } = require('./database/init')
-const mongoose  = require('mongoose');
+const R = require('ramda')
+const MIDDLEWARES = ['router']
 
-const router = require('./routes')
-app
-  .use(router.routes())
-  .use(router.allowedMethods());
+const useMiddlewares = (app) => {
+  R.map(
+    R.compose(
+      R.forEachObjIndexed(
+        initWith => initWith(app)
+      ),
+      require,
+      name => resolve(__dirname, `./middlewares/${name}`)
+    )
+  )(MIDDLEWARES)
+}
 
 ;(async () => {
   await connect()
+
   initSchemas()
-  initAdmin();
-  // model 传两个参数 第二个为定义的文件 作为model的发布， 如果只有一个参数
-  // const Movie = mongoose.model('Movie')  
-   
-  // const movies = await Movie.find({})
-  // require 执行movie.js
-  // require('./tasks/trailer')
+
+  await initAdmin()
+
   // require('./tasks/movie')
+  // require('./tasks/api')
+  // require('./tasks/trailer')
+  // require('./tasks/qiniu')
+
+  const app = new Koa()
+  await useMiddlewares(app)
+
+  app.listen(4455)
 })()
-
-// const { htmlTpl, ejsTpl, pugTpl } = require('./tpl')
-// const ejs = require('ejs')
-// const pug = require('pug')
-
-app.use(views(resolve(__dirname, './views'), {
-  extension: 'pug' // 识别扩展名是pug的文件
-}))
-app.use(async (ctx, next) => {
-  await ctx.render('index', {
-    you: 'koa',
-    me: 'word'
-  })
-})
-
-app.listen(5566);

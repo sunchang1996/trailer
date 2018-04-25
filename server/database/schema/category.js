@@ -1,38 +1,37 @@
 const mongoose = require('mongoose')
-
-const Schema = mongoose.Schema;
-
-const ObjectId = Schema.Types.ObjectId;
+const Schema = mongoose.Schema
+const ObjectId = Schema.Types.ObjectId
 
 const CategorySchema = new Schema({
   name: {
     unique: true,
-    type: String,
+    type: String
   },
   movies: [{
     type: ObjectId,
-    ref: 'Movie'   //建立一个指向关系
+    ref: 'Movie'
   }],
   meta: {
-    createAt: {
+    createdAt: {
       type: Date,
       default: Date.now()
     },
     updatedAt: {
       type: Date,
       default: Date.now()
-    } 
+    }
   }
 })
 
-CategorySchema.pre('save', function(next) {
+CategorySchema.pre('save', function (next) {
   if (this.isNew) {
-    this.meta.createAt = this.meta.updatedAt = Date.now();
+    this.meta.createdAt = this.meta.updatedAt = Date.now()
   } else {
-    this.meta.updatedAt = Date.now();
+    this.meta.updatedAt = Date.now()
   }
 
-  next();
-}); // pre 在保存之前
+  next()
+})
 
-mongoose.model('Category', CategorySchema) // 传递两个参数 
+
+mongoose.model('Category', CategorySchema)

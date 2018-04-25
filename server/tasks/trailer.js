@@ -5,7 +5,6 @@ const Movie = mongoose.model('Movie')
 const Category = mongoose.model('Category')
 
 ;(async () => {
-  // $or  或者属性或 
   let movies = await Movie.find({
     $or: [
       { video: { $exists: false }},
@@ -35,7 +34,6 @@ const Category = mongoose.model('Category')
   })
 
   child.on('message', async data => {
-    
     let doubanId = data.doubanId
     let movie = await Movie.findOne({
       doubanId: doubanId
@@ -61,7 +59,6 @@ const Category = mongoose.model('Category')
           let idx = cat.movies.indexOf(movie._id)
 
           if (idx > -1) {
-            // 视频不存在 就删除id
             cat.movies = cat.movies.splice(idx, 1)
           }
 

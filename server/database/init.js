@@ -29,7 +29,7 @@ exports.initAdmin = async () => {
 
 exports.connect = () => {
 
-  const maxConnectTimes = 0;
+  let maxConnectTimes = 0;
 
   return new Promise((resolve, reject) => {
     if(process.env.NODE_ENV !== 'production') {
